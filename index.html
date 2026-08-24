@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpsFlow AI — Daily Operations Assistant</title>
+    <meta name="description" content="Turn operational updates into clear actions, priorities, blockers, and follow-up communications." />
+    <meta property="og:title" content="OpsFlow AI — Daily Operations Assistant" />
+    <meta property="og:description" content="Turn operational updates into clear actions, priorities, and next steps." />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+      // In sandboxed preview iframes, Vite HMR WebSockets are unreachable.
+      // Mock/guard WebSocket creation to prevent connection failures and unhandled rejection banners.
+      (function() {
+        if (typeof window === 'undefined') return;
+        
+        window.addEventListener('unhandledrejection', function(event) {
+          var reason = event.reason;
+          var msg = typeof reason === 'string' ? reason : (reason && reason.message) || String(reason || '');
+          if (msg.includes('WebSocket') || msg.includes('websocket') || msg.includes('ws') || msg.includes('vite')) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        }, true);
+
+        window.addEventListener('error', function(event) {
+          var msg = event.message || '';
+          if (msg.includes('WebSocket') || msg.includes('websocket') || msg.includes('vite')) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        }, true);
+
+        var OriginalWebSocket = window.WebSocket;
+        if (OriginalWebSocket) {
+          window.WebSocket = function(url, protocols) {
+            var urlStr = String(url || '');
+            if (urlStr.includes('vite-hmr') || urlStr.includes('localhost') || urlStr.includes('127.0.0.1') || urlStr.startsWith('ws:') || urlStr.startsWith('wss:')) {
+              var fakeWs = {
+                url: urlStr,
+                readyState: 3, // CLOSED
+                bufferedAmount: 0,
+                extensions: '',
+                protocol: '',
+                binaryType: 'blob',
+                onopen: null,
+                onerror: null,
+                onclose: null,
+                onmessage: null,
+                send: function() {},
+                close: function() {},
+                addEventListener: function() {},
+                removeEventListener: function() {},
+                dispatchEvent: function() { return true; }
+              };
+              return fakeWs;
+            }
+            return new OriginalWebSocket(url, protocols);
+          };
+          window.WebSocket.prototype = OriginalWebSocket.prototype;
+          window.WebSocket.CONNECTING = 0;
+          window.WebSocket.OPEN = 1;
+          window.WebSocket.CLOSING = 2;
+          window.WebSocket.CLOSED = 3;
+        }
+      })();
+    </script>
+  </head>
+  <body class="bg-[#090D16] text-slate-100 antialiased font-sans min-h-screen selection:bg-indigo-500 selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

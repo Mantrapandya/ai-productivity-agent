@@ -1,0 +1,6 @@
+{
+  "name": "OpsFlow AI — Daily Operations Assistant",
+  "description": "Transform unstructured meeting notes, shift reports, and daily updates into actionable executive summaries, priority matrices, blocker insights, action plans, and follow-up emails.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
