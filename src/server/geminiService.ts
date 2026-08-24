@@ -1,74 +1,74 @@
-import { GoogleGenAI, Type } from '@google/genai';
+import { GoogleGenAI } from '@google/genai';
 
 // Response Schema Definition for Gemini Structured Output
 export const analysisResponseSchema = {
-  type: Type.OBJECT,
+  type: 'OBJECT',
   properties: {
     executiveSummary: {
-      type: Type.ARRAY,
-      items: { type: Type.STRING },
+      type: 'ARRAY',
+      items: { type: 'STRING' },
       description: 'Exactly 3 concise bullet points identifying the most critical operational updates.',
     },
     actionItems: {
-      type: Type.ARRAY,
+      type: 'ARRAY',
       items: {
-        type: Type.OBJECT,
+        type: 'OBJECT',
         properties: {
-          task: { type: Type.STRING, description: 'Clear actionable task description.' },
-          assignee: { type: Type.STRING, description: 'Explicit assignee name or exactly "Not specified".' },
-          deadline: { type: Type.STRING, description: 'Explicit deadline stated or exactly "No deadline".' },
-          priority: { type: Type.STRING, description: 'Must be "High", "Medium", or "Low" based strictly on stated urgency/deadlines.' },
-          status: { type: Type.STRING, description: 'Default "Not Started".' },
+          task: { type: 'STRING', description: 'Clear actionable task description.' },
+          assignee: { type: 'STRING', description: 'Explicit assignee name or exactly "Not specified".' },
+          deadline: { type: 'STRING', description: 'Explicit deadline stated or exactly "No deadline".' },
+          priority: { type: 'STRING', description: 'Must be "High", "Medium", or "Low" based strictly on stated urgency/deadlines.' },
+          status: { type: 'STRING', description: 'Default "Not Started".' },
         },
         required: ['task', 'assignee', 'deadline', 'priority', 'status'],
       },
       description: 'List of all extracted operational action items.',
     },
     priorityInsights: {
-      type: Type.ARRAY,
+      type: 'ARRAY',
       items: {
-        type: Type.OBJECT,
+        type: 'OBJECT',
         properties: {
-          item: { type: Type.STRING, description: 'Priority item title.' },
-          urgency: { type: Type.STRING, description: 'Urgency indicator (e.g. Critical, High, Urgent, Moderate).' },
-          rationale: { type: Type.STRING, description: 'Clear rationale based strictly on source text.' },
+          item: { type: 'STRING', description: 'Priority item title.' },
+          urgency: { type: 'STRING', description: 'Urgency indicator (e.g. Critical, High, Urgent, Moderate).' },
+          rationale: { type: 'STRING', description: 'Clear rationale based strictly on source text.' },
         },
         required: ['item', 'urgency', 'rationale'],
       },
       description: 'Strategic priority insights with grounded reasoning.',
     },
     blockers: {
-      type: Type.ARRAY,
+      type: 'ARRAY',
       items: {
-        type: Type.OBJECT,
+        type: 'OBJECT',
         properties: {
-          blocker: { type: Type.STRING, description: 'Clear blocker/dependency description.' },
-          impact: { type: Type.STRING, description: 'Operational impact on timeline or deliverables.' },
-          severity: { type: Type.STRING, description: 'High, Medium, or Low.' },
+          blocker: { type: 'STRING', description: 'Clear blocker/dependency description.' },
+          impact: { type: 'STRING', description: 'Operational impact on timeline or deliverables.' },
+          severity: { type: 'STRING', description: 'High, Medium, or Low.' },
         },
         required: ['blocker', 'impact', 'severity'],
       },
       description: 'Identified blockers, dependencies, waiting states, and resource constraints. Return empty array if none found.',
     },
     dailyPlan: {
-      type: Type.ARRAY,
+      type: 'ARRAY',
       items: {
-        type: Type.OBJECT,
+        type: 'OBJECT',
         properties: {
-          step: { type: Type.INTEGER, description: 'Step number (1, 2, 3, 4, etc.).' },
-          title: { type: Type.STRING, description: 'Ordered tier title: "Highest-priority action", "Next important action", "Follow-up action", or "Remaining actions".' },
-          description: { type: Type.STRING, description: 'Specific tactical action derived strictly from input.' },
-          assignee: { type: Type.STRING, description: 'Assigned individual or "Not specified".' },
+          step: { type: 'INTEGER', description: 'Step number (1, 2, 3, 4, etc.).' },
+          title: { type: 'STRING', description: 'Ordered tier title: "Highest-priority action", "Next important action", "Follow-up action", or "Remaining actions".' },
+          description: { type: 'STRING', description: 'Specific tactical action derived strictly from input.' },
+          assignee: { type: 'STRING', description: 'Assigned individual or "Not specified".' },
         },
         required: ['step', 'title', 'description', 'assignee'],
       },
       description: 'Practical ordered 4-tier daily action plan based on user facts.',
     },
     followUpEmail: {
-      type: Type.OBJECT,
+      type: 'OBJECT',
       properties: {
-        subject: { type: Type.STRING, description: 'Professional, concise subject line.' },
-        body: { type: Type.STRING, description: 'Complete follow-up email text containing Subject, Greeting, Key action items, Deadlines, Clear next steps, and Professional closing.' },
+        subject: { type: 'STRING', description: 'Professional, concise subject line.' },
+        body: { type: 'STRING', description: 'Complete follow-up email text containing Subject, Greeting, Key action items, Deadlines, Clear next steps, and Professional closing.' },
       },
       required: ['subject', 'body'],
       description: 'Professional follow-up email communication.',
@@ -82,9 +82,9 @@ export async function executeOperationsAnalysis(text: string, focusNote?: string
     throw new Error('Please enter an operational update before analyzing.');
   }
 
-  const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY || process.env.VITE_GEMINI_API_KEY;
   if (!apiKey) {
-    throw new Error('Gemini API key is not configured. Please ensure GEMINI_API_KEY is available in the environment.');
+    throw new Error('GEMINI_API_KEY is not configured. Please ensure GEMINI_API_KEY is added to your environment variables.');
   }
 
   const aiClient = new GoogleGenAI({
@@ -151,7 +151,7 @@ CRITICAL INSTRUCTIONS & STRICT OPERATIONAL GROUNDING RULES:
             systemInstruction,
             temperature: 0.1,
             responseMimeType: 'application/json',
-            responseSchema: analysisResponseSchema,
+            responseSchema: analysisResponseSchema as any,
           },
         });
         if (response?.text) {

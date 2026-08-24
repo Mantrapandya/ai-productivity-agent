@@ -1,74 +1,74 @@
-import { GoogleGenAI, Type } from '@google/genai';
+import { GoogleGenAI } from '@google/genai';
 
 // Response Schema Definition for Gemini Structured Output
 const analysisResponseSchema = {
-  type: Type.OBJECT,
+  type: 'OBJECT',
   properties: {
     executiveSummary: {
-      type: Type.ARRAY,
-      items: { type: Type.STRING },
+      type: 'ARRAY',
+      items: { type: 'STRING' },
       description: 'Exactly 3 concise bullet points identifying the most critical operational updates.',
     },
     actionItems: {
-      type: Type.ARRAY,
+      type: 'ARRAY',
       items: {
-        type: Type.OBJECT,
+        type: 'OBJECT',
         properties: {
-          task: { type: Type.STRING, description: 'Clear actionable task description.' },
-          assignee: { type: Type.STRING, description: 'Explicit assignee name or exactly "Not specified".' },
-          deadline: { type: Type.STRING, description: 'Explicit deadline stated or exactly "No deadline".' },
-          priority: { type: Type.STRING, description: 'Must be "High", "Medium", or "Low" based strictly on stated urgency/deadlines.' },
-          status: { type: Type.STRING, description: 'Default "Not Started".' },
+          task: { type: 'STRING', description: 'Clear actionable task description.' },
+          assignee: { type: 'STRING', description: 'Explicit assignee name or exactly "Not specified".' },
+          deadline: { type: 'STRING', description: 'Explicit deadline stated or exactly "No deadline".' },
+          priority: { type: 'STRING', description: 'Must be "High", "Medium", or "Low" based strictly on stated urgency/deadlines.' },
+          status: { type: 'STRING', description: 'Default "Not Started".' },
         },
         required: ['task', 'assignee', 'deadline', 'priority', 'status'],
       },
       description: 'List of all extracted operational action items.',
     },
     priorityInsights: {
-      type: Type.ARRAY,
+      type: 'ARRAY',
       items: {
-        type: Type.OBJECT,
+        type: 'OBJECT',
         properties: {
-          item: { type: Type.STRING, description: 'Priority item title.' },
-          urgency: { type: Type.STRING, description: 'Urgency indicator (e.g. Critical, High, Urgent, Moderate).' },
-          rationale: { type: Type.STRING, description: 'Clear rationale based strictly on source text.' },
+          item: { type: 'STRING', description: 'Priority item title.' },
+          urgency: { type: 'STRING', description: 'Urgency indicator (e.g. Critical, High, Urgent, Moderate).' },
+          rationale: { type: 'STRING', description: 'Clear rationale based strictly on source text.' },
         },
         required: ['item', 'urgency', 'rationale'],
       },
       description: 'Strategic priority insights with grounded reasoning.',
     },
     blockers: {
-      type: Type.ARRAY,
+      type: 'ARRAY',
       items: {
-        type: Type.OBJECT,
+        type: 'OBJECT',
         properties: {
-          blocker: { type: Type.STRING, description: 'Clear blocker/dependency description.' },
-          impact: { type: Type.STRING, description: 'Operational impact on timeline or deliverables.' },
-          severity: { type: Type.STRING, description: 'High, Medium, or Low.' },
+          blocker: { type: 'STRING', description: 'Clear blocker/dependency description.' },
+          impact: { type: 'STRING', description: 'Operational impact on timeline or deliverables.' },
+          severity: { type: 'STRING', description: 'High, Medium, or Low.' },
         },
         required: ['blocker', 'impact', 'severity'],
       },
       description: 'Identified blockers, dependencies, waiting states, and resource constraints. Return empty array if none found.',
     },
     dailyPlan: {
-      type: Type.ARRAY,
+      type: 'ARRAY',
       items: {
-        type: Type.OBJECT,
+        type: 'OBJECT',
         properties: {
-          step: { type: Type.INTEGER, description: 'Step number (1, 2, 3, 4, etc.).' },
-          title: { type: Type.STRING, description: 'Ordered tier title: "Highest-priority action", "Next important action", "Follow-up action", or "Remaining actions".' },
-          description: { type: Type.STRING, description: 'Specific tactical action derived strictly from input.' },
-          assignee: { type: Type.STRING, description: 'Assigned individual or "Not specified".' },
+          step: { type: 'INTEGER', description: 'Step number (1, 2, 3, 4, etc.).' },
+          title: { type: 'STRING', description: 'Ordered tier title: "Highest-priority action", "Next important action", "Follow-up action", or "Remaining actions".' },
+          description: { type: 'STRING', description: 'Specific tactical action derived strictly from input.' },
+          assignee: { type: 'STRING', description: 'Assigned individual or "Not specified".' },
         },
         required: ['step', 'title', 'description', 'assignee'],
       },
       description: 'Practical ordered 4-tier daily action plan based on user facts.',
     },
     followUpEmail: {
-      type: Type.OBJECT,
+      type: 'OBJECT',
       properties: {
-        subject: { type: Type.STRING, description: 'Professional, concise subject line.' },
-        body: { type: Type.STRING, description: 'Complete follow-up email text containing Subject, Greeting, Key action items, Deadlines, Clear next steps, and Professional closing.' },
+        subject: { type: 'STRING', description: 'Professional, concise subject line.' },
+        body: { type: 'STRING', description: 'Complete follow-up email text containing Subject, Greeting, Key action items, Deadlines, Clear next steps, and Professional closing.' },
       },
       required: ['subject', 'body'],
       description: 'Professional follow-up email communication.',
@@ -82,9 +82,9 @@ async function executeOperationsAnalysis(text: string, focusNote?: string) {
     throw new Error('Please enter an operational update before analyzing.');
   }
 
-  const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY || process.env.VITE_GEMINI_API_KEY;
   if (!apiKey) {
-    throw new Error('Gemini API key is not configured. Please ensure GEMINI_API_KEY is available in the environment.');
+    throw new Error('GEMINI_API_KEY is not configured. Please ensure GEMINI_API_KEY is added to your environment variables in Vercel settings.');
   }
 
   const aiClient = new GoogleGenAI({
@@ -151,7 +151,7 @@ CRITICAL INSTRUCTIONS & STRICT OPERATIONAL GROUNDING RULES:
             systemInstruction,
             temperature: 0.1,
             responseMimeType: 'application/json',
-            responseSchema: analysisResponseSchema,
+            responseSchema: analysisResponseSchema as any,
           },
         });
         if (response?.text) {
@@ -303,32 +303,119 @@ CRITICAL INSTRUCTIONS & STRICT OPERATIONAL GROUNDING RULES:
   };
 }
 
-export default async function handler(req: any, res: any) {
-  // Support CORS preflight
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    return res.status(200).end();
+async function parseIncomingBody(req: any): Promise<any> {
+  if (!req) return {};
+  if (req.body !== undefined && req.body !== null) {
+    if (typeof req.body === 'string') {
+      try {
+        return JSON.parse(req.body);
+      } catch {
+        return {};
+      }
+    }
+    if (typeof req.body === 'object') {
+      return req.body;
+    }
   }
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ success: false, error: 'Method not allowed' });
+  if (typeof req.json === 'function') {
+    try {
+      return await req.json();
+    } catch {
+      return {};
+    }
+  }
+
+  if (typeof req.on === 'function') {
+    return new Promise((resolve) => {
+      let data = '';
+      req.on('data', (chunk: any) => {
+        data += chunk;
+      });
+      req.on('end', () => {
+        try {
+          resolve(data ? JSON.parse(data) : {});
+        } catch {
+          resolve({});
+        }
+      });
+      req.on('error', () => {
+        resolve({});
+      });
+    });
+  }
+
+  return {};
+}
+
+function respond(res: any, status: number, payload: any) {
+  if (!res) {
+    return new Response(JSON.stringify(payload), {
+      status,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+  }
+
+  if (typeof res.setHeader === 'function') {
+    try {
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Access-Control-Allow-Origin', '*');
+    } catch {}
+  }
+
+  if (typeof res.status === 'function') {
+    if (typeof res.json === 'function') {
+      return res.status(status).json(payload);
+    }
+    res.status(status);
+    return res.end(JSON.stringify(payload));
+  }
+
+  if (typeof res.writeHead === 'function') {
+    try {
+      res.writeHead(status, {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      });
+    } catch {}
+    return res.end(JSON.stringify(payload));
+  }
+
+  return res.end(JSON.stringify(payload));
+}
+
+export default async function handler(req: any, res: any) {
+  // Support CORS preflight
+  if (req?.method === 'OPTIONS') {
+    if (res && typeof res.setHeader === 'function') {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      return res.status(200).end();
+    }
+    return new Response(null, {
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      },
+    });
+  }
+
+  if (req?.method && req.method !== 'POST') {
+    return respond(res, 405, { success: false, error: 'Method not allowed' });
   }
 
   try {
-    let body = req.body;
-    if (typeof body === 'string') {
-      try {
-        body = JSON.parse(body);
-      } catch {
-        body = {};
-      }
-    }
-
+    const body = await parseIncomingBody(req);
     const { text, focusNote } = body || {};
 
     if (!text || typeof text !== 'string' || !text.trim()) {
-      return res.status(400).json({
+      return respond(res, 400, {
         success: false,
         error: 'Please enter an operational update before analyzing.',
       });
@@ -336,35 +423,21 @@ export default async function handler(req: any, res: any) {
 
     const result = await executeOperationsAnalysis(text, focusNote);
 
-    return res.status(200).json({
+    return respond(res, 200, {
       success: true,
       data: result.data,
       meta: result.meta,
     });
   } catch (error: any) {
-    console.error('OpsFlow AI Analysis Error:', error?.message || 'Unknown error');
-    
-    // Defensive sanitization: ensure no API keys, internal paths, or stack traces leak to the client
-    let safeErrorMessage = 'An unexpected error occurred while analyzing the operational update. Please retry.';
-    if (error?.message && typeof error.message === 'string') {
-      const rawMsg = error.message;
-      const containsSensitiveData =
-        rawMsg.includes('AIza') ||
-        rawMsg.includes('key') ||
-        rawMsg.includes('auth') ||
-        rawMsg.includes('credential') ||
-        rawMsg.includes('/node_modules') ||
-        rawMsg.includes('at ') ||
-        rawMsg.includes('http');
+    console.error('[OpsFlow AI] Error:', error?.message || error);
 
-      if (!containsSensitiveData) {
-        safeErrorMessage = rawMsg;
-      }
-    }
+    let cleanMsg = error?.message || 'An unexpected error occurred while analyzing the operational update. Please retry.';
+    // Defensive sanitization: replace raw key patterns
+    cleanMsg = cleanMsg.replace(/AIza[0-9A-Za-z-_]{35}/g, '[REDACTED]');
 
-    return res.status(500).json({
+    return respond(res, 500, {
       success: false,
-      error: safeErrorMessage,
+      error: cleanMsg,
     });
   }
 }
