@@ -77,6 +77,25 @@ const analysisResponseSchema = {
   required: ['executiveSummary', 'actionItems', 'priorityInsights', 'blockers', 'dailyPlan', 'followUpEmail'],
 };
 
+let cachedClient: GoogleGenAI | null = null;
+let cachedKey: string | null = null;
+
+function getAiClient(apiKey: string): GoogleGenAI {
+  if (cachedClient && cachedKey === apiKey) {
+    return cachedClient;
+  }
+  cachedClient = new GoogleGenAI({
+    apiKey,
+    httpOptions: {
+      headers: {
+        'User-Agent': 'aistudio-build',
+      },
+    },
+  });
+  cachedKey = apiKey;
+  return cachedClient;
+}
+
 async function executeOperationsAnalysis(text: string, focusNote?: string) {
   if (!text || typeof text !== 'string' || !text.trim()) {
     throw new Error('Please enter an operational update before analyzing.');
@@ -87,14 +106,7 @@ async function executeOperationsAnalysis(text: string, focusNote?: string) {
     throw new Error('GEMINI_API_KEY is not configured. Please ensure GEMINI_API_KEY is added to your environment variables in Vercel settings.');
   }
 
-  const aiClient = new GoogleGenAI({
-    apiKey,
-    httpOptions: {
-      headers: {
-        'User-Agent': 'aistudio-build',
-      },
-    },
-  });
+  const aiClient = getAiClient(apiKey);
 
   const systemInstruction = `You are OpsFlow AI, an elite Operations Productivity Agent for Google Cloud Gen AI Academy APAC Edition 2026.
 Your role is to transform unstructured operational information (meeting notes, shift reports, daily work logs, project standups) into high-fidelity, structured business intelligence with ZERO hallucination and strict grounding.
@@ -152,6 +164,9 @@ CRITICAL INSTRUCTIONS & STRICT OPERATIONAL GROUNDING RULES:
             temperature: 0.1,
             responseMimeType: 'application/json',
             responseSchema: analysisResponseSchema as any,
+            thinkingConfig: {
+              thinkingBudget: 0,
+            },
           },
         });
         if (response?.text) {
@@ -161,6 +176,28 @@ CRITICAL INSTRUCTIONS & STRICT OPERATIONAL GROUNDING RULES:
         lastError = err;
         const status = err?.status || err?.code || '';
         const message = String(err?.message || '');
+
+        // If thinkingConfig is not supported for a specific model version, retry without it
+        if (message.includes('thinkingConfig') || message.includes('thinking_config')) {
+          try {
+            response = await aiClient.models.generateContent({
+              model,
+              contents: userPrompt,
+              config: {
+                systemInstruction,
+                temperature: 0.1,
+                responseMimeType: 'application/json',
+                responseSchema: analysisResponseSchema as any,
+              },
+            });
+            if (response?.text) {
+              break;
+            }
+          } catch (retryErr: any) {
+            lastError = retryErr;
+          }
+        }
+
         const isTransient =
           status === 503 ||
           status === 429 ||
@@ -172,7 +209,7 @@ CRITICAL INSTRUCTIONS & STRICT OPERATIONAL GROUNDING RULES:
           message.includes('quota');
 
         if (isTransient && attempts < maxAttempts) {
-          await new Promise((resolve) => setTimeout(resolve, 1000 * attempts));
+          await new Promise((resolve) => setTimeout(resolve, 500 * attempts));
           continue;
         }
         break; // Move to next candidate model
