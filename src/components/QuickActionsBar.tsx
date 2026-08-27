@@ -60,7 +60,7 @@ export const QuickActionsBar: React.FC<QuickActionsBarProps> = ({
   };
 
   return (
-    <div className="relative bg-slate-900/70 backdrop-blur-xl border border-slate-800/90 rounded-2xl shadow-xl p-4 sm:p-5 transition-all">
+    <div className="bg-[#111624] border border-[#1E2638] rounded-2xl p-4 sm:p-5 shadow-xl transition-all">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         {/* Left info */}
         <div>
@@ -78,7 +78,7 @@ export const QuickActionsBar: React.FC<QuickActionsBarProps> = ({
           <button
             type="button"
             onClick={handleCopySummary}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-700/80 rounded-lg transition-colors whitespace-nowrap shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-[#13192B] hover:bg-[#1C2438] border border-[#1E2638] rounded-lg transition-colors whitespace-nowrap"
           >
             {copiedLabel === 'Executive Summary' ? (
               <Check className="w-3.5 h-3.5 text-emerald-400" />
@@ -91,7 +91,7 @@ export const QuickActionsBar: React.FC<QuickActionsBarProps> = ({
           <button
             type="button"
             onClick={handleCopyActionItems}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-700/80 rounded-lg transition-colors whitespace-nowrap shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-[#13192B] hover:bg-[#1C2438] border border-[#1E2638] rounded-lg transition-colors whitespace-nowrap"
           >
             {copiedLabel === 'Action Items' ? (
               <Check className="w-3.5 h-3.5 text-emerald-400" />
@@ -104,7 +104,7 @@ export const QuickActionsBar: React.FC<QuickActionsBarProps> = ({
           <button
             type="button"
             onClick={handleCopyDailyPlan}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-700/80 rounded-lg transition-colors whitespace-nowrap shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-[#13192B] hover:bg-[#1C2438] border border-[#1E2638] rounded-lg transition-colors whitespace-nowrap"
           >
             {copiedLabel === 'Daily Plan' ? (
               <Check className="w-3.5 h-3.5 text-emerald-400" />
@@ -117,7 +117,7 @@ export const QuickActionsBar: React.FC<QuickActionsBarProps> = ({
           <button
             type="button"
             onClick={handleCopyEmail}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-lg transition-all whitespace-nowrap shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-lg transition-all whitespace-nowrap"
           >
             {copiedLabel === 'Follow-Up Email' ? (
               <Check className="w-3.5 h-3.5 text-emerald-400" />
@@ -127,12 +127,12 @@ export const QuickActionsBar: React.FC<QuickActionsBarProps> = ({
             <span>Email</span>
           </button>
 
-          <div className="h-5 w-px bg-slate-800 hidden sm:block mx-1" />
+          <div className="h-5 w-px bg-[#1E2638] hidden sm:block mx-1" />
 
           <button
             type="button"
             onClick={handleCopyFullReport}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-indigo-300 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 rounded-lg transition-all whitespace-nowrap shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-indigo-300 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 rounded-lg transition-all whitespace-nowrap"
             title="Copy entire formatted markdown report"
           >
             {copiedLabel === 'Full Operations Report' ? (
@@ -146,7 +146,7 @@ export const QuickActionsBar: React.FC<QuickActionsBarProps> = ({
           <button
             type="button"
             onClick={handleDownloadMarkdown}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-700/80 rounded-lg transition-colors whitespace-nowrap shadow-xs"
+            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-[#13192B] hover:bg-[#1C2438] border border-[#1E2638] rounded-lg transition-colors whitespace-nowrap"
             title="Download .md file"
           >
             <FileDown className="w-3.5 h-3.5" />
@@ -156,7 +156,7 @@ export const QuickActionsBar: React.FC<QuickActionsBarProps> = ({
           <button
             type="button"
             onClick={onNewAnalysis}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 hover:from-indigo-600 hover:to-purple-700 rounded-lg transition-all whitespace-nowrap ml-auto sm:ml-0 shadow-md shadow-indigo-500/20"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-all whitespace-nowrap ml-auto sm:ml-0 shadow-sm"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>New Ingestion</span>
@@ -166,3 +166,4 @@ export const QuickActionsBar: React.FC<QuickActionsBarProps> = ({
     </div>
   );
 };
+

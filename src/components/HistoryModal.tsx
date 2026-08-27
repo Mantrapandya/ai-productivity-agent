@@ -18,10 +18,10 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
   onClose,
 }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
-      <div className="bg-[#0D1322] w-full max-w-2xl rounded-2xl border border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+      <div className="bg-[#111624] w-full max-w-2xl rounded-2xl border border-[#1E2638] shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
         {/* Header */}
-        <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
+        <div className="p-4 sm:p-5 border-b border-[#1E2638] flex items-center justify-between bg-[#13192B]/70">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xs">
               <History className="w-4 h-4" />
@@ -47,7 +47,7 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
             )}
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
+              className="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-[#13192B] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -55,7 +55,7 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
         </div>
 
         {/* History List */}
-        <div className="p-4 sm:p-6 overflow-y-auto divide-y divide-slate-800/60 flex-1">
+        <div className="p-4 sm:p-6 overflow-y-auto divide-y divide-[#1E2638]/70 flex-1 space-y-2">
           {history.length === 0 ? (
             <div className="text-center py-12">
               <History className="w-8 h-8 text-slate-600 mx-auto mb-2" />
@@ -68,7 +68,7 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
             history.map((item) => (
               <div
                 key={item.id}
-                className="py-3.5 flex items-start justify-between gap-4 group hover:bg-slate-800/40 px-3 rounded-xl transition-colors"
+                className="py-3 flex items-start justify-between gap-4 group hover:bg-[#13192B]/60 px-3 rounded-xl transition-colors border border-transparent hover:border-[#1E2638]"
               >
                 <div
                   className="flex-1 min-w-0 cursor-pointer"
@@ -127,3 +127,4 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
     </div>
   );
 };
+

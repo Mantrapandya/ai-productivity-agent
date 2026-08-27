@@ -126,25 +126,25 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
     switch (priority) {
       case 'High':
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+          <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-rose-500/15 text-rose-300 border border-rose-500/30">
             High
           </span>
         );
       case 'Medium':
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+          <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-300 border border-amber-500/30">
             Medium
           </span>
         );
       case 'Low':
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+          <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
             Low
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700">
+          <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-800 text-slate-300 border border-slate-700">
             {priority}
           </span>
         );
@@ -155,14 +155,14 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
     switch (status) {
       case 'Completed':
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
             <Check className="w-3 h-3 mr-1" />
             Completed
           </span>
         );
       case 'In Progress':
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
             <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 mr-1.5 animate-pulse" />
             In Progress
           </span>
@@ -170,7 +170,7 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
       case 'Not Started':
       default:
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-slate-800/80 text-slate-400 border border-slate-700/80">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-[#0B0F17] text-slate-400 border border-[#1E2638]">
             Not Started
           </span>
         );
@@ -178,9 +178,9 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
   };
 
   return (
-    <div className="relative bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl shadow-xl overflow-hidden transition-all hover:border-slate-700/80">
+    <div className="bg-[#111624] border border-[#1E2638] rounded-2xl shadow-xl overflow-hidden transition-all">
       {/* Header */}
-      <div className="p-5 sm:p-6 border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-4 bg-slate-900/40">
+      <div className="p-4 sm:p-5 border-b border-[#1E2638] flex flex-wrap items-center justify-between gap-3 bg-[#13192B]/60">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xs font-mono">
             03
@@ -191,7 +191,7 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
                 <CheckSquare className="w-4 h-4 text-indigo-400" />
                 <span>Action Items Matrix</span>
               </h3>
-              <span className="px-2 py-0.5 text-[10px] font-mono font-bold rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+              <span className="px-2 py-0.5 text-[10px] font-mono font-bold rounded-md bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
                 {items.length} tasks
               </span>
             </div>
@@ -205,14 +205,14 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsAddingTask(!isAddingTask)}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-indigo-300 bg-indigo-500/10 hover:bg-indigo-500/20 rounded-lg border border-indigo-500/30 transition-all shadow-xs"
+            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-indigo-300 bg-indigo-500/10 hover:bg-indigo-500/20 rounded-lg border border-indigo-500/30 transition-all"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Add Task</span>
           </button>
           <button
             onClick={handleCopyTSV}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 rounded-lg border border-slate-700/80 transition-colors shadow-xs"
+            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-[#13192B] hover:bg-[#1C2438] rounded-lg border border-[#1E2638] transition-colors"
             title="Copy for Excel or Google Sheets"
           >
             <FileSpreadsheet className="w-3.5 h-3.5" />
@@ -220,7 +220,7 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
           </button>
           <button
             onClick={handleCopyMarkdown}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 rounded-lg border border-slate-700/80 transition-colors shadow-xs"
+            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-[#13192B] hover:bg-[#1C2438] rounded-lg border border-[#1E2638] transition-colors"
             title="Copy as Markdown table"
           >
             {isCopied ? (
@@ -239,11 +239,11 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
       </div>
 
       {/* Progress Bar */}
-      <div className="px-5 sm:px-6 py-2.5 bg-[#0A0E1A] border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div className="px-4 sm:px-5 py-2.5 bg-[#0B0F17] border-b border-[#1E2638] flex flex-wrap items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-3 flex-1 min-w-[200px] max-w-sm">
-          <div className="flex-1 bg-slate-800 h-1.5 rounded-full overflow-hidden">
+          <div className="flex-1 bg-[#1E2638] h-1.5 rounded-full overflow-hidden">
             <div
-              className="bg-emerald-500 h-full rounded-full transition-all duration-300 shadow-sm shadow-emerald-500/50"
+              className="bg-emerald-500 h-full rounded-full transition-all duration-300"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -252,13 +252,13 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
           </span>
         </div>
 
-        <span className="text-slate-500 text-[11px] font-mono">
+        <span className="text-slate-400 text-[11px] font-mono">
           Click status pill to cycle: Not Started → In Progress → Completed
         </span>
       </div>
 
       {/* Controls Bar: Search & Filters */}
-      <div className="p-3.5 bg-slate-900/70 border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
+      <div className="p-3 bg-[#13192B]/80 border-b border-[#1E2638] flex flex-wrap items-center justify-between gap-3">
         <div className="relative flex-1 min-w-[200px] max-w-sm">
           <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
           <input
@@ -266,22 +266,22 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search tasks, assignees, deadlines..."
-            className="w-full text-xs text-slate-200 placeholder-slate-500 bg-[#0D1322] border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 focus:outline-hidden focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all font-mono"
+            className="w-full text-xs text-slate-200 placeholder-slate-500 bg-[#0B0F17] border border-[#1E2638] rounded-lg pl-8 pr-3 py-1.5 focus:outline-hidden focus:border-indigo-500 transition-all font-mono"
           />
         </div>
 
         <div className="flex items-center gap-2">
           {/* Priority filter */}
           <div className="flex items-center gap-1 text-xs">
-            <span className="text-slate-500 text-[11px] mr-1">Priority:</span>
+            <span className="text-slate-400 text-[11px] mr-1">Priority:</span>
             {['All', 'High', 'Medium', 'Low'].map((p) => (
               <button
                 key={p}
                 onClick={() => setPriorityFilter(p)}
                 className={`px-2 py-1 rounded-md text-xs font-medium transition-colors ${
                   priorityFilter === p
-                    ? 'bg-indigo-600 text-white font-semibold shadow-xs'
-                    : 'bg-slate-800/70 text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                    ? 'bg-indigo-600 text-white font-semibold'
+                    : 'bg-[#0B0F17] text-slate-400 hover:text-slate-200 border border-[#1E2638]'
                 }`}
               >
                 {p}
@@ -291,15 +291,15 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
 
           {/* Status filter */}
           <div className="hidden sm:flex items-center gap-1 text-xs">
-            <span className="text-slate-500 text-[11px] mr-1">Status:</span>
+            <span className="text-slate-400 text-[11px] mr-1">Status:</span>
             {['All', 'Not Started', 'In Progress', 'Completed'].map((s) => (
               <button
                 key={s}
                 onClick={() => setStatusFilter(s)}
                 className={`px-2 py-1 rounded-md text-xs font-medium transition-colors ${
                   statusFilter === s
-                    ? 'bg-indigo-600 text-white font-semibold shadow-xs'
-                    : 'bg-slate-800/70 text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                    ? 'bg-indigo-600 text-white font-semibold'
+                    : 'bg-[#0B0F17] text-slate-400 hover:text-slate-200 border border-[#1E2638]'
                 }`}
               >
                 {s}
@@ -320,7 +320,7 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
                 value={newTask.task || ''}
                 onChange={(e) => setNewTask({ ...newTask, task: e.target.value })}
                 placeholder="Task description"
-                className="w-full text-xs bg-[#0D1322] border border-slate-700 text-slate-100 rounded-lg px-3 py-1.5 focus:outline-hidden focus:border-indigo-500"
+                className="w-full text-xs bg-[#0B0F17] border border-[#1E2638] text-slate-100 rounded-lg px-3 py-1.5 focus:outline-hidden focus:border-indigo-500"
               />
             </div>
             <div className="sm:col-span-2">
@@ -329,7 +329,7 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
                 value={newTask.assignee || ''}
                 onChange={(e) => setNewTask({ ...newTask, assignee: e.target.value })}
                 placeholder="Assignee"
-                className="w-full text-xs bg-[#0D1322] border border-slate-700 text-slate-100 rounded-lg px-3 py-1.5 focus:outline-hidden focus:border-indigo-500"
+                className="w-full text-xs bg-[#0B0F17] border border-[#1E2638] text-slate-100 rounded-lg px-3 py-1.5 focus:outline-hidden focus:border-indigo-500"
               />
             </div>
             <div className="sm:col-span-2">
@@ -338,14 +338,14 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
                 value={newTask.deadline || ''}
                 onChange={(e) => setNewTask({ ...newTask, deadline: e.target.value })}
                 placeholder="Deadline"
-                className="w-full text-xs bg-[#0D1322] border border-slate-700 text-slate-100 rounded-lg px-3 py-1.5 focus:outline-hidden focus:border-indigo-500"
+                className="w-full text-xs bg-[#0B0F17] border border-[#1E2638] text-slate-100 rounded-lg px-3 py-1.5 focus:outline-hidden focus:border-indigo-500"
               />
             </div>
             <div className="sm:col-span-1">
               <select
                 value={newTask.priority}
                 onChange={(e) => setNewTask({ ...newTask, priority: e.target.value as PriorityLevel })}
-                className="w-full text-xs bg-[#0D1322] border border-slate-700 text-slate-100 rounded-lg px-2 py-1.5 focus:outline-hidden focus:border-indigo-500"
+                className="w-full text-xs bg-[#0B0F17] border border-[#1E2638] text-slate-100 rounded-lg px-2 py-1.5 focus:outline-hidden focus:border-indigo-500"
               >
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>
@@ -355,13 +355,13 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
             <div className="sm:col-span-2 flex items-center gap-1.5">
               <button
                 onClick={handleSaveNewTask}
-                className="flex-1 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold shadow-xs"
+                className="flex-1 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold"
               >
                 Save
               </button>
               <button
                 onClick={() => setIsAddingTask(false)}
-                className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs"
+                className="px-2.5 py-1.5 bg-[#13192B] hover:bg-[#1C2438] text-slate-300 rounded-lg text-xs border border-[#1E2638]"
               >
                 Cancel
               </button>
@@ -374,20 +374,20 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
       <div className="overflow-x-auto">
         <table className="w-full text-left text-xs border-collapse">
           <thead>
-            <tr className="bg-[#0A0E1A] border-b border-slate-800 text-slate-400 uppercase tracking-wider font-mono text-[11px]">
-              <th className="py-3 px-4 w-12 text-center">Done</th>
-              <th className="py-3 px-4 min-w-[240px]">Task Description</th>
-              <th className="py-3 px-4 w-36">Assignee</th>
-              <th className="py-3 px-4 w-32">Deadline</th>
-              <th className="py-3 px-4 w-24">Priority</th>
-              <th className="py-3 px-4 w-32">Status</th>
-              <th className="py-3 px-3 w-10 text-center"></th>
+            <tr className="bg-[#0B0F17] border-b border-[#1E2638] text-slate-400 uppercase tracking-wider font-mono text-[10px]">
+              <th className="py-2.5 px-4 w-12 text-center">Done</th>
+              <th className="py-2.5 px-4 min-w-[240px]">Task Description</th>
+              <th className="py-2.5 px-4 w-36">Assignee</th>
+              <th className="py-2.5 px-4 w-32">Deadline</th>
+              <th className="py-2.5 px-4 w-24">Priority</th>
+              <th className="py-2.5 px-4 w-32">Status</th>
+              <th className="py-2.5 px-3 w-10 text-center"></th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800/60">
+          <tbody className="divide-y divide-[#1E2638]/70">
             {filteredItems.length === 0 ? (
               <tr>
-                <td colSpan={7} className="py-8 text-center text-slate-500">
+                <td colSpan={7} className="py-8 text-center text-slate-400">
                   No action items match the current filters.
                 </td>
               </tr>
@@ -398,8 +398,8 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
                 return (
                   <tr
                     key={item.id}
-                    className={`hover:bg-slate-800/40 transition-colors ${
-                      isCompleted ? 'bg-slate-950/40 opacity-60' : ''
+                    className={`hover:bg-[#13192B]/60 transition-colors ${
+                      isCompleted ? 'bg-[#0B0F17]/60 opacity-60' : ''
                     }`}
                   >
                     {/* Checkbox */}
@@ -410,7 +410,7 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
                         className={`w-4 h-4 rounded border flex items-center justify-center transition-colors cursor-pointer ${
                           isCompleted
                             ? 'bg-emerald-500 border-emerald-500 text-white'
-                            : 'border-slate-700 hover:border-indigo-400 bg-slate-900'
+                            : 'border-slate-700 hover:border-indigo-400 bg-[#0B0F17]'
                         }`}
                       >
                         {isCompleted && <Check className="w-3 h-3 stroke-[3]" />}
@@ -435,8 +435,8 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
                         <span
                           className={`font-medium ${
                             item.assignee === 'Not specified'
-                              ? 'text-slate-500 italic'
-                              : 'text-slate-300'
+                              ? 'text-slate-400 italic'
+                              : 'text-slate-200'
                           }`}
                         >
                           {item.assignee}
@@ -451,7 +451,7 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
                         <span
                           className={`font-mono text-[11px] ${
                             item.deadline === 'No deadline'
-                              ? 'text-slate-500 italic'
+                              ? 'text-slate-400 italic'
                               : 'text-indigo-300 font-semibold'
                           }`}
                         >
@@ -496,3 +496,4 @@ export const ActionItemsTable: React.FC<ActionItemsTableProps> = ({
     </div>
   );
 };
+

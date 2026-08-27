@@ -49,18 +49,18 @@ const ToastItem: React.FC<{ toast: ToastMessage; onDismiss: () => void }> = ({
   const getBg = () => {
     switch (toast.type) {
       case 'success':
-        return 'bg-slate-900/90 border-emerald-500/40 text-emerald-200 shadow-emerald-950/40';
+        return 'bg-[#111624] border-emerald-500/30 text-emerald-200';
       case 'error':
-        return 'bg-slate-900/90 border-rose-500/40 text-rose-200 shadow-rose-950/40';
+        return 'bg-[#111624] border-rose-500/30 text-rose-200';
       case 'info':
       default:
-        return 'bg-slate-900/90 border-indigo-500/40 text-indigo-200 shadow-indigo-950/40';
+        return 'bg-[#111624] border-indigo-500/30 text-indigo-200';
     }
   };
 
   return (
     <div
-      className={`pointer-events-auto flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl border backdrop-blur-xl shadow-xl text-xs font-medium transition-all ${getBg()}`}
+      className={`pointer-events-auto flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl border shadow-xl text-xs font-medium transition-all ${getBg()}`}
     >
       <div className="flex items-center gap-2.5">
         {getIcon()}
@@ -75,3 +75,4 @@ const ToastItem: React.FC<{ toast: ToastMessage; onDismiss: () => void }> = ({
     </div>
   );
 };
+

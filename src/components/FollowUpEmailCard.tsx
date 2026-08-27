@@ -46,8 +46,8 @@ export const FollowUpEmailCard: React.FC<FollowUpEmailCardProps> = ({
   };
 
   return (
-    <div className="relative bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl shadow-xl p-5 sm:p-6 transition-all hover:border-slate-700/80">
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800/80">
+    <div className="bg-[#111624] border border-[#1E2638] rounded-2xl p-5 sm:p-6 shadow-xl transition-all">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-[#1E2638]">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-xs font-mono">
             06
@@ -66,14 +66,14 @@ export const FollowUpEmailCard: React.FC<FollowUpEmailCardProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 rounded-lg border border-slate-700/80 transition-colors shadow-xs"
+            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-[#13192B] hover:bg-[#1C2438] rounded-lg border border-[#1E2638] transition-colors"
           >
             <Edit3 className="w-3.5 h-3.5" />
             <span>{isEditing ? 'Preview' : 'Edit Draft'}</span>
           </button>
           <button
             onClick={handleMailTo}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 rounded-lg border border-purple-500/30 transition-all shadow-xs"
+            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 rounded-lg border border-purple-500/30 transition-all"
             title="Open in default email app"
           >
             <ExternalLink className="w-3.5 h-3.5" />
@@ -81,7 +81,7 @@ export const FollowUpEmailCard: React.FC<FollowUpEmailCardProps> = ({
           </button>
           <button
             onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 rounded-lg border border-slate-700/80 transition-colors whitespace-nowrap shadow-xs"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-[#13192B] hover:bg-[#1C2438] rounded-lg border border-[#1E2638] transition-colors whitespace-nowrap"
             title="Copy entire email"
           >
             {isCopied ? (
@@ -99,17 +99,17 @@ export const FollowUpEmailCard: React.FC<FollowUpEmailCardProps> = ({
         </div>
       </div>
 
-      {/* Email Container (Dark Code-Style Monospace Block) */}
-      <div className="rounded-xl border border-slate-800 bg-[#0A0E1A] overflow-hidden font-mono text-xs">
+      {/* Email Container */}
+      <div className="rounded-xl border border-[#1E2638] bg-[#0B0F17] overflow-hidden font-mono text-xs">
         {/* Subject Bar */}
-        <div className="p-3.5 bg-[#0D1322] border-b border-slate-800/90 flex items-center gap-2">
-          <span className="font-semibold text-slate-500 shrink-0 text-xs font-mono">Subject:</span>
+        <div className="p-3 bg-[#13192B] border-b border-[#1E2638] flex items-center gap-2">
+          <span className="font-semibold text-slate-400 shrink-0 text-xs font-mono">Subject:</span>
           {isEditing ? (
             <input
               type="text"
               value={editedSubject}
               onChange={(e) => setEditedSubject(e.target.value)}
-              className="flex-1 text-xs font-semibold text-slate-100 bg-[#090D16] border border-slate-700 rounded-lg px-2.5 py-1 focus:outline-hidden focus:border-purple-500"
+              className="flex-1 text-xs font-semibold text-slate-100 bg-[#0B0F17] border border-[#1E2638] rounded-lg px-2.5 py-1 focus:outline-hidden focus:border-purple-500"
             />
           ) : (
             <span className="font-semibold text-slate-200 text-xs truncate">
@@ -125,7 +125,7 @@ export const FollowUpEmailCard: React.FC<FollowUpEmailCardProps> = ({
               value={editedBody}
               onChange={(e) => setEditedBody(e.target.value)}
               rows={10}
-              className="w-full text-xs text-slate-200 bg-[#090D16] border border-slate-700 rounded-lg p-3 font-mono leading-relaxed focus:outline-hidden focus:border-purple-500"
+              className="w-full text-xs text-slate-200 bg-[#0B0F17] border border-[#1E2638] rounded-lg p-3 font-mono leading-relaxed focus:outline-hidden focus:border-purple-500"
             />
           ) : (
             <div className="text-xs text-slate-300 whitespace-pre-wrap leading-relaxed font-mono select-text">
@@ -137,3 +137,4 @@ export const FollowUpEmailCard: React.FC<FollowUpEmailCardProps> = ({
     </div>
   );
 };
+

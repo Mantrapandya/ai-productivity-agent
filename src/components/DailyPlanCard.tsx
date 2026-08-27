@@ -26,20 +26,20 @@ export const DailyPlanCard: React.FC<DailyPlanCardProps> = ({
   const getStepBadge = (step: number) => {
     switch (step) {
       case 1:
-        return 'bg-rose-500/20 text-rose-300 border-rose-500/30';
+        return 'bg-rose-500/15 text-rose-300 border-rose-500/30';
       case 2:
-        return 'bg-amber-500/20 text-amber-300 border-amber-500/30';
+        return 'bg-amber-500/15 text-amber-300 border-amber-500/30';
       case 3:
-        return 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30';
+        return 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30';
       case 4:
       default:
-        return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
+        return 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30';
     }
   };
 
   return (
-    <div className="relative bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl shadow-xl p-5 sm:p-6 transition-all hover:border-slate-700/80">
-      <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800/80">
+    <div className="bg-[#111624] border border-[#1E2638] rounded-2xl p-5 sm:p-6 shadow-xl transition-all">
+      <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-[#1E2638]">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xs font-mono">
             05
@@ -57,7 +57,7 @@ export const DailyPlanCard: React.FC<DailyPlanCardProps> = ({
 
         <button
           onClick={handleCopy}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-700/80 rounded-lg transition-colors whitespace-nowrap shadow-xs"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-[#13192B] hover:bg-[#1C2438] border border-[#1E2638] rounded-lg transition-colors whitespace-nowrap"
           title="Copy Daily Action Plan"
         >
           {isCopied ? (
@@ -74,15 +74,15 @@ export const DailyPlanCard: React.FC<DailyPlanCardProps> = ({
         </button>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-2.5">
         {planList.map((item, index) => {
           return (
             <div
               key={index}
-              className="relative flex items-start gap-3.5 p-3.5 rounded-xl bg-[#0D1322]/80 border border-slate-800/80 transition-colors hover:border-slate-700"
+              className="relative flex items-start gap-3.5 p-3.5 rounded-xl bg-[#0B0F17] border border-[#1E2638] transition-colors hover:border-slate-700/60"
             >
               <div
-                className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs font-mono shrink-0 mt-0.5 border ${getStepBadge(
+                className={`w-6 h-6 rounded-md flex items-center justify-center font-bold text-[11px] font-mono shrink-0 mt-0.5 border ${getStepBadge(
                   item?.step || index + 1
                 )}`}
               >
@@ -95,7 +95,7 @@ export const DailyPlanCard: React.FC<DailyPlanCardProps> = ({
                     {item?.title || `Action Tier ${index + 1}`}
                   </h4>
                   {item?.assignee && (
-                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-400 bg-slate-900 px-2 py-0.5 rounded-md border border-slate-800">
+                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-400 bg-[#13192B] px-2 py-0.5 rounded-md border border-[#1E2638]">
                       <User className="w-3 h-3 text-slate-500" />
                       <span>{item.assignee}</span>
                     </span>
@@ -113,3 +113,4 @@ export const DailyPlanCard: React.FC<DailyPlanCardProps> = ({
     </div>
   );
 };
+

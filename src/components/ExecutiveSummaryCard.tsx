@@ -21,8 +21,8 @@ export const ExecutiveSummaryCard: React.FC<ExecutiveSummaryCardProps> = ({
   };
 
   return (
-    <div className="relative bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl shadow-xl p-5 sm:p-6 transition-all hover:border-slate-700/80">
-      <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800/80">
+    <div className="bg-[#111624] border border-[#1E2638] rounded-2xl p-5 sm:p-6 shadow-xl transition-all">
+      <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-[#1E2638]">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xs font-mono">
             01
@@ -40,7 +40,7 @@ export const ExecutiveSummaryCard: React.FC<ExecutiveSummaryCardProps> = ({
 
         <button
           onClick={handleCopy}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-700/80 rounded-lg transition-colors whitespace-nowrap shadow-xs"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-[#13192B] hover:bg-[#1C2438] border border-[#1E2638] rounded-lg transition-colors whitespace-nowrap"
           title="Copy Executive Summary"
         >
           {isCopied ? (
@@ -57,16 +57,16 @@ export const ExecutiveSummaryCard: React.FC<ExecutiveSummaryCardProps> = ({
         </button>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-2.5">
         {summaryList.slice(0, 3).map((bullet, idx) => (
           <div
             key={idx}
-            className="flex items-start gap-3 p-3.5 rounded-xl bg-[#0D1322]/80 border border-slate-800/80 hover:border-slate-700/80 transition-colors"
+            className="flex items-start gap-3 p-3.5 rounded-xl bg-[#0B0F17] border border-[#1E2638] hover:border-slate-700/60 transition-colors"
           >
-            <span className="w-5 h-5 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold font-mono flex items-center justify-center shrink-0 mt-0.5">
+            <span className="w-5 h-5 rounded-md bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 text-[11px] font-bold font-mono flex items-center justify-center shrink-0 mt-0.5">
               {idx + 1}
             </span>
-            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
+            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
               {bullet}
             </p>
           </div>
@@ -75,3 +75,4 @@ export const ExecutiveSummaryCard: React.FC<ExecutiveSummaryCardProps> = ({
     </div>
   );
 };
+
