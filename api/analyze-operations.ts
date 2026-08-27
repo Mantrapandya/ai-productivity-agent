@@ -7,22 +7,22 @@ const analysisResponseSchema = {
     executiveSummary: {
       type: 'ARRAY',
       items: { type: 'STRING' },
-      description: 'Exactly 3 concise bullet points identifying the most critical operational updates.',
+      description: 'Exactly 3 concise bullet points identifying critical updates.',
     },
     actionItems: {
       type: 'ARRAY',
       items: {
         type: 'OBJECT',
         properties: {
-          task: { type: 'STRING', description: 'Clear actionable task description.' },
-          assignee: { type: 'STRING', description: 'Explicit assignee name or exactly "Not specified".' },
-          deadline: { type: 'STRING', description: 'Explicit deadline stated or exactly "No deadline".' },
-          priority: { type: 'STRING', description: 'Must be "High", "Medium", or "Low" based strictly on stated urgency/deadlines.' },
+          task: { type: 'STRING', description: 'Clear actionable task.' },
+          assignee: { type: 'STRING', description: 'Explicit assignee or "Not specified".' },
+          deadline: { type: 'STRING', description: 'Explicit deadline or "No deadline".' },
+          priority: { type: 'STRING', description: 'High, Medium, or Low.' },
           status: { type: 'STRING', description: 'Default "Not Started".' },
         },
         required: ['task', 'assignee', 'deadline', 'priority', 'status'],
       },
-      description: 'List of all extracted operational action items.',
+      description: 'Extracted operational action items.',
     },
     priorityInsights: {
       type: 'ARRAY',
@@ -30,8 +30,8 @@ const analysisResponseSchema = {
         type: 'OBJECT',
         properties: {
           item: { type: 'STRING', description: 'Priority item title.' },
-          urgency: { type: 'STRING', description: 'Urgency indicator (e.g. Critical, High, Urgent, Moderate).' },
-          rationale: { type: 'STRING', description: 'Clear rationale based strictly on source text.' },
+          urgency: { type: 'STRING', description: 'Urgency level (e.g. Critical, High, Moderate).' },
+          rationale: { type: 'STRING', description: 'Grounded rationale from source text.' },
         },
         required: ['item', 'urgency', 'rationale'],
       },
@@ -42,33 +42,33 @@ const analysisResponseSchema = {
       items: {
         type: 'OBJECT',
         properties: {
-          blocker: { type: 'STRING', description: 'Clear blocker/dependency description.' },
-          impact: { type: 'STRING', description: 'Operational impact on timeline or deliverables.' },
+          blocker: { type: 'STRING', description: 'Blocker/dependency description.' },
+          impact: { type: 'STRING', description: 'Operational impact.' },
           severity: { type: 'STRING', description: 'High, Medium, or Low.' },
         },
         required: ['blocker', 'impact', 'severity'],
       },
-      description: 'Identified blockers, dependencies, waiting states, and resource constraints. Return empty array if none found.',
+      description: 'Blockers and resource constraints. Return empty array if none.',
     },
     dailyPlan: {
       type: 'ARRAY',
       items: {
         type: 'OBJECT',
         properties: {
-          step: { type: 'INTEGER', description: 'Step number (1, 2, 3, 4, etc.).' },
-          title: { type: 'STRING', description: 'Ordered tier title: "Highest-priority action", "Next important action", "Follow-up action", or "Remaining actions".' },
-          description: { type: 'STRING', description: 'Specific tactical action derived strictly from input.' },
-          assignee: { type: 'STRING', description: 'Assigned individual or "Not specified".' },
+          step: { type: 'INTEGER', description: 'Step number (1, 2, 3, 4).' },
+          title: { type: 'STRING', description: 'Tier title.' },
+          description: { type: 'STRING', description: 'Tactical action derived from input.' },
+          assignee: { type: 'STRING', description: 'Assignee or "Not specified".' },
         },
         required: ['step', 'title', 'description', 'assignee'],
       },
-      description: 'Practical ordered 4-tier daily action plan based on user facts.',
+      description: 'Ordered 4-tier daily action plan based on user facts.',
     },
     followUpEmail: {
       type: 'OBJECT',
       properties: {
-        subject: { type: 'STRING', description: 'Professional, concise subject line.' },
-        body: { type: 'STRING', description: 'Complete follow-up email text containing Subject, Greeting, Key action items, Deadlines, Clear next steps, and Professional closing.' },
+        subject: { type: 'STRING', description: 'Professional subject line.' },
+        body: { type: 'STRING', description: 'Complete follow-up email text.' },
       },
       required: ['subject', 'body'],
       description: 'Professional follow-up email communication.',
@@ -109,41 +109,31 @@ async function executeOperationsAnalysis(text: string, focusNote?: string) {
   const aiClient = getAiClient(apiKey);
 
   const systemInstruction = `You are OpsFlow AI, an elite Operations Productivity Agent for Google Cloud Gen AI Academy APAC Edition 2026.
-Your role is to transform unstructured operational information (meeting notes, shift reports, daily work logs, project standups) into high-fidelity, structured business intelligence with ZERO hallucination and strict grounding.
+Transform unstructured operational text into structured intelligence with ZERO hallucination and strict grounding.
 
-CRITICAL INSTRUCTIONS & STRICT OPERATIONAL GROUNDING RULES:
-1. ONLY use information explicitly provided in the user's operational update.
-2. NEVER invent tasks, people, deadlines, commitments, owners, or business facts.
-3. If an assignee/owner is not mentioned in the text, use exactly "Not specified".
-4. If a deadline is not mentioned in the text, use exactly "No deadline".
-5. For EXECUTIVE SUMMARY: Provide EXACTLY 3 concise bullet points identifying the most important operational updates from the input.
-6. For ACTION ITEMS: Extract all distinct tasks. Set initial status to "Not Started". Priority must strictly be "High", "Medium", or "Low" based on evidence (explicit urgency, close deadlines, dependencies, or operational impact).
-7. For PRIORITY INSIGHTS: Highlight high-impact urgent items with clear rationale based strictly on evidence from the text.
-8. For BLOCKERS & DEPENDENCIES: Identify waiting states (e.g., marketing waiting for design images), supply/resource shortages (e.g., warehouse running low on packaging), or critical bottlenecks. If no blockers or dependencies are present, return an empty array [].
-9. For DAILY ACTION PLAN: Provide an ordered action plan prioritizing:
-   - Tier 1: Explicit urgent items / immediate operations
-   - Tier 2: Approaching deadlines / scheduled deliverables
-   - Tier 3: Blocking dependencies / inter-team coordination
-   - Tier 4: Remaining tasks / routine follow-ups
-   Do not invent any new tasks outside the provided text.
-10. For FOLLOW-UP EMAIL: Generate a complete, professional follow-up email containing:
-    - Subject: Clear, professional subject line
-    - Greeting (e.g., "Hi Team," or "Team,")
-    - Key Action Items & Deadlines (using only extracted facts)
-    - Next Steps & Dependencies
-    - Professional Closing
-    Do not invent names, deadlines, commitments, or responsibilities.`;
+CRITICAL RULES:
+1. ONLY use information explicitly stated in the input. NEVER invent people, tasks, or deadlines.
+2. If assignee is missing, use exactly "Not specified". If deadline is missing, use exactly "No deadline".
+3. executiveSummary: Exactly 3 concise bullet points identifying the most critical operational updates.
+4. actionItems: Extract all distinct tasks. Priority must strictly be "High", "Medium", or "Low". Set status to "Not Started".
+5. priorityInsights: Highlight urgent high-impact items with grounded rationale from text.
+6. blockers: Identify bottlenecks, resource constraints, or waiting states. Return [] if none.
+7. dailyPlan: 4-tier ordered tactical plan:
+   - Tier 1: Immediate urgent operations
+   - Tier 2: Scheduled deliverables/deadlines
+   - Tier 3: Blocking dependencies
+   - Tier 4: Remaining tasks/routine follow-ups
+8. followUpEmail: Complete professional email with Subject, Greeting, Action Items, Deadlines, Next Steps, and Closing.`;
 
   const userPrompt = `Operational Update to Process:\n"""\n${text.trim()}\n"""${focusNote ? `\n\nAdditional Focus / Context Note: ${focusNote}` : ''}\n\nExecute the full operations intelligence extraction into the specified JSON format.`;
 
-  // Candidate model hierarchy with automatic retries on transient 503 / 429 errors
+  // Candidate model hierarchy with ultra-low-latency configuration
   const candidateModels = [
-    'gemini-3.7-flash',
+    'gemini-3.5-flash-lite',
+    'gemini-flash-lite-latest',
+    'gemini-3.5-flash',
     'gemini-3.6-flash',
-    'gemini-2.5-flash',
-    'gemini-3.1-pro-preview',
-    'gemini-2.5-pro',
-    'gemini-flash-latest',
+    'gemini-3.7-flash',
   ];
 
   let response: any = null;
@@ -156,19 +146,24 @@ CRITICAL INSTRUCTIONS & STRICT OPERATIONAL GROUNDING RULES:
     while (attempts < maxAttempts) {
       try {
         attempts++;
+        const isReasoningModel = model.includes('3.7');
+        const config: any = {
+          systemInstruction,
+          temperature: 0.1,
+          responseMimeType: 'application/json',
+          responseSchema: analysisResponseSchema as any,
+        };
+
+        if (isReasoningModel) {
+          config.thinkingConfig = { thinkingBudget: 0 };
+        }
+
         response = await aiClient.models.generateContent({
           model,
           contents: userPrompt,
-          config: {
-            systemInstruction,
-            temperature: 0.1,
-            responseMimeType: 'application/json',
-            responseSchema: analysisResponseSchema as any,
-            thinkingConfig: {
-              thinkingBudget: 0,
-            },
-          },
+          config,
         });
+
         if (response?.text) {
           break; // Successfully generated
         }
@@ -176,27 +171,6 @@ CRITICAL INSTRUCTIONS & STRICT OPERATIONAL GROUNDING RULES:
         lastError = err;
         const status = err?.status || err?.code || '';
         const message = String(err?.message || '');
-
-        // If thinkingConfig is not supported for a specific model version, retry without it
-        if (message.includes('thinkingConfig') || message.includes('thinking_config')) {
-          try {
-            response = await aiClient.models.generateContent({
-              model,
-              contents: userPrompt,
-              config: {
-                systemInstruction,
-                temperature: 0.1,
-                responseMimeType: 'application/json',
-                responseSchema: analysisResponseSchema as any,
-              },
-            });
-            if (response?.text) {
-              break;
-            }
-          } catch (retryErr: any) {
-            lastError = retryErr;
-          }
-        }
 
         const isTransient =
           status === 503 ||
@@ -209,10 +183,10 @@ CRITICAL INSTRUCTIONS & STRICT OPERATIONAL GROUNDING RULES:
           message.includes('quota');
 
         if (isTransient && attempts < maxAttempts) {
-          await new Promise((resolve) => setTimeout(resolve, 500 * attempts));
+          await new Promise((resolve) => setTimeout(resolve, 300 * attempts));
           continue;
         }
-        break; // Move to next candidate model
+        break; // Move to next candidate model immediately without waiting
       }
     }
 
